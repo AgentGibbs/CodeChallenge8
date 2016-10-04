@@ -2,6 +2,7 @@ package HTMLUtilities;
 
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
+
 import java.util.*;
 
 public class HtmlImageScraper {
@@ -9,8 +10,9 @@ public class HtmlImageScraper {
     public Document doc;
     private ArrayList<String> pageLinks;
     private String domainName;
+
     public HtmlImageScraper(Document docToScrape, String domainNameToScrape) {
-       // System.out.println("Scraping page");
+        // System.out.println("Scraping page");
         doc = docToScrape;
         domainName = domainNameToScrape;
     }
@@ -25,15 +27,14 @@ public class HtmlImageScraper {
     }
 
 
-    public ArrayList<String> scrapeImages()
-    {
+    public ArrayList<String> scrapeImages() {
         ArrayList<String> images = new ArrayList<String>();
 
         Elements imageTags = doc.select("img");
         for (Element image : imageTags
                 ) {
             String src = image.attr("src").toLowerCase();
-                images.add(src);
+            images.add(src);
 
         }
 
@@ -51,8 +52,6 @@ public class HtmlImageScraper {
     }
 
 
-
-
     public ArrayList<String> getPageLinks() {
         populatePageLinks();
         return pageLinks;
@@ -66,17 +65,10 @@ public class HtmlImageScraper {
         for (Element link : anchorTags
                 ) {
             String href = link.attr("href").toLowerCase();
-            if (pageLinks.contains(href) == false
-                    && href.contains(domainName)==true
-                    && !href.contains("@@")
-                    && !href.contains("&")
-                    && !href.contains("?")
-                    && !href.contains("..")
-                    && href.startsWith("https")
-                    && !href.contains(",")
-                    && !href.contains("mobile"))  {
-                pageLinks.add(href);
-            }
+
+            pageLinks.add(href);
+
         }
+
     }
 }

@@ -24,10 +24,7 @@ public class CrawlerProgram {
         ExecutorService threadPool = Executors.newFixedThreadPool(maxThreadCount);
 
         Crawl crawl = new Crawl(initialUrl, domainName);
-
-
         crawledList.add(initialUrl);
-
         futures.add(threadPool.submit(crawl));
         while (!futures.isEmpty()) {
             List<Future<List<String>>> completedFutures = new ArrayList<Future<List<String>>>();
@@ -54,12 +51,20 @@ public class CrawlerProgram {
             }
             Thread.sleep(300);
         }
-        fileBuilder.buildDictionary();
+       // fileBuilder.buildDictionary();
     }
 
-    private static boolean UrlIsOkay(String newUrl) {
+    private static boolean UrlIsOkay(String href) {
         boolean isOkay = false;
-        if (!toCrawlList.contains(newUrl) && !crawledList.contains(newUrl) && newUrl.contains(domainName)){
+        if (!toCrawlList.contains(href)
+                && !crawledList.contains(href)
+                && href.contains(domainName)==true
+                && !href.contains("@@")
+                && !href.contains("&")
+                && !href.contains("?")
+                && !href.contains("..")
+                && !href.contains(",")
+                && !href.contains("mobile"))  {
             isOkay = true;
         }
         return isOkay;
